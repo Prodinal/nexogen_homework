@@ -41,7 +41,7 @@ namespace OrderTruckComparison
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);
 
                 trucks = new List<Truck>();
                 jobs = new List<Job>();
