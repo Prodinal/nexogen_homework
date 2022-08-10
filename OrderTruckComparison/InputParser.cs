@@ -14,12 +14,13 @@ namespace OrderTruckComparison
 
         public bool ReadInput(IEnumerable<string> lines, out List<Truck> trucks, out List<Job> jobs)
         {
+            IEnumerator<string>? iterator = null;
             try
             {
                 trucks = new List<Truck>();
                 jobs = new List<Job>();
 
-                var iterator = lines.GetEnumerator();
+                iterator = lines.GetEnumerator();
 
                 if (!iterator.MoveNext()) throw new Exception("Empty input file");  //First line: number of trucks
                 var truckCount = int.Parse(iterator.Current);
@@ -46,6 +47,13 @@ namespace OrderTruckComparison
                 trucks = new List<Truck>();
                 jobs = new List<Job>();
                 return false;
+            }
+            finally
+            {
+                if(iterator != null)
+                {
+                    iterator.Dispose();
+                }
             }
 
         }

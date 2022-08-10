@@ -24,4 +24,8 @@ if(!inputParser.ReadInput(lines, out var trucks, out var jobs))
     return;
 }
 
+var truckJobPairer = new TruckJobPairer();
+var result = truckJobPairer.CalculateBestPairing(trucks, jobs);
+
+
 Console.WriteLine($"Finished running in {sw.Elapsed.TotalSeconds}seconds");
