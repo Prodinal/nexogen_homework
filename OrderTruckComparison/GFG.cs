@@ -1,38 +1,34 @@
 ﻿using OrderTruckComparison.Entities;
 
-class GFG
+//Code originally based on this https://www.geeksforgeeks.org/maximum-bipartite-matching/
+public class MaxBipartiteMatching
 {
-    // M is number of applicants
-    // and N is number of jobs
     private int truckCount;
     private int jobCount;
 
-    // A DFS based recursive function
-    // that returns true if a matching
-    // for vertex u is possible
-    private bool bpm(bool[,] bpGraph, int u, bool[] seen, int[] matchR)
+    // A DFS based recursive function that returns true if a matching for vertex u is possible, and updates matchR accordingly 
+    private bool CanTruckGetJob(bool[,] adjacencyMatrix, int truckIndex, bool[] seen, int[] jobMatches)
     {
         // Try every job one by one
-        for (int v = 0; v < jobCount; v++)
+        for (int jobIndex = 0; jobIndex < jobCount; jobIndex++)
         {
             // If applicant u is interested
             // in job v and v is not visited
-            if (bpGraph[u, v] && !seen[v])
+            if (adjacencyMatrix[truckIndex, jobIndex] && !seen[jobIndex])
             {
                 // Mark v as visited
-                seen[v] = true;
+                seen[jobIndex] = true;
 
-                // If job 'v' is not assigned to
-                // an applicant OR previously assigned
-                // applicant for job v (which is matchR[v])
+                // If job 'jobIndex' is not assigned to
+                // a truck OR previously assigned
+                // truck for job jobIndex (which is jobMatches[jobIndex])
                 // has an alternate job available.
-                // Since v is marked as visited in the above
-                // line, matchR[v] in the following recursive
-                // call will not get job 'v' again
-                if (matchR[v] < 0 || bpm(bpGraph, matchR[v],
-                                         seen, matchR))
+                // Since jobIndex is marked as visited in the above
+                // line, jobMatches[jobIndex] in the following recursive
+                // call will not get job 'jobIndex' again
+                if (jobMatches[jobIndex] < 0 || CanTruckGetJob(adjacencyMatrix, jobMatches[jobIndex], seen, jobMatches))
                 {
-                    matchR[v] = u;
+                    jobMatches[jobIndex] = truckIndex;
                     return true;
                 }
             }
@@ -40,27 +36,27 @@ class GFG
         return false;
     }
 
-    // Returns maximum number of
-    // matching from M to N
-    private int[] maxBPM(bool[,] bpGraph)
+    // Returns an array of integers, where [i] means the index of the truck that is assigned to the job with index i
+    // E.g. [-1, 2, 1] means job0 has no truck assigned to it, job1 has truck under index2 assigned to it, and job2 has truck under index1 assigned to it
+    private int[] MaxBPM(bool[,] bpGraph)
     {
         truckCount = bpGraph.GetLength(0);
         jobCount = bpGraph.GetLength(1);
 
         // An array to keep track of the
-        // applicants assigned to jobs.
-        // The value of matchR[i] is the
-        // applicant number assigned to job i,
+        // trucks assigned to jobs.
+        // The value of jobMatches[i] is the
+        // truck index assigned to job i,
         // the value -1 indicates nobody is assigned.
-        int[] matchR = new int[jobCount];
+        int[] jobMatches = new int[jobCount];
 
         // Initially all jobs are available
         for (int i = 0; i < jobCount; ++i)
-            matchR[i] = -1;
+        {
+            jobMatches[i] = -1;
+        }
 
-        // Count of jobs assigned to applicants
-        int result = 0;
-        for (int u = 0; u < truckCount; u++)
+        for (int truckIndex = 0; truckIndex < truckCount; truckIndex++)
         {
             // Mark all jobs as not
             // seen for next applicant.
@@ -70,10 +66,9 @@ class GFG
 
             // Find if the applicant
             // 'u' can get a job
-            if (bpm(bpGraph, u, seen, matchR))
-                result++;
+            CanTruckGetJob(bpGraph, truckIndex, seen, jobMatches);
         }
-        return matchR;
+        return jobMatches;
     }
 
     public Dictionary<Truck, Job> CalculateMaximumPairing(List<Truck> trucks, List<Job> jobs)
@@ -87,7 +82,7 @@ class GFG
             }
         }
 
-        var matches = maxBPM(matrix);
+        var matches = MaxBPM(matrix);
         
         var result = new Dictionary<Truck, Job>();
         for (int i = 0; i < matches.Length; i++)

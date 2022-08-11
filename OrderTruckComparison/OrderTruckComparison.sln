@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderTruckComparison", "Ord
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderTruckComparison.Test", "..\OrderTruckComparison.Test\OrderTruckComparison.Test.csproj", "{685B74E7-E5E7-44C8-ADF3-22A4733F329A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{82CE7A2F-E2CC-4302-A5AA-116B351094AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomProblemGenerator", "..\Tools\RandomProblemGenerator\RandomProblemGenerator.csproj", "{9AD08E96-94FF-4A47-B56E-ED9FDD35D118}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,9 +25,16 @@ Global
 		{685B74E7-E5E7-44C8-ADF3-22A4733F329A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{685B74E7-E5E7-44C8-ADF3-22A4733F329A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{685B74E7-E5E7-44C8-ADF3-22A4733F329A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AD08E96-94FF-4A47-B56E-ED9FDD35D118}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AD08E96-94FF-4A47-B56E-ED9FDD35D118}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AD08E96-94FF-4A47-B56E-ED9FDD35D118}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AD08E96-94FF-4A47-B56E-ED9FDD35D118}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9AD08E96-94FF-4A47-B56E-ED9FDD35D118} = {82CE7A2F-E2CC-4302-A5AA-116B351094AF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {20393C1A-6906-4087-AADC-90E4460AEA64}
