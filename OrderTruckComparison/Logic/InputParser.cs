@@ -57,7 +57,7 @@ namespace OrderTruckComparison.Logic
             }
         }
 
-        private Job GetJobFromLine(string line)
+        private static Job GetJobFromLine(string line)
         {
             var parts = line.Split(' ');
             if (parts.Length != 2) throw new Exception("Malformed job line: " + line);
@@ -69,7 +69,7 @@ namespace OrderTruckComparison.Logic
             };
         }
 
-        private Truck GetTruckFromLine(string line)
+        private static Truck GetTruckFromLine(string line)
         {
             var parts = line.Split(' ');
             if (parts.Length < 2) throw new Exception("Malformed truck line: " + line);
