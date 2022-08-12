@@ -1,3 +1,5 @@
+using OrderTruckComparison.Logic;
+
 namespace OrderTruckComparison.Test
 {
     public class Tests

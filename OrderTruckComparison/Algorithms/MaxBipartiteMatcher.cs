@@ -1,7 +1,9 @@
-﻿namespace OrderTruckComparison
+﻿using OrderTruckComparison.Interfaces;
+
+namespace OrderTruckComparison.Algorithms
 {
     //Code originally based on this https://www.geeksforgeeks.org/maximum-bipartite-matching/
-    public class MaxBipartiteMatcher
+    public class MaxBipartiteMatcher : IMaxBipartiteMatcher
     {
         private int truckCount;
         private int jobCount;

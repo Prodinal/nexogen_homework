@@ -1,17 +1,22 @@
-﻿using OrderTruckComparison.Entities;
+﻿using OrderTruckComparison.Algorithms;
+using OrderTruckComparison.Entities;
 using OrderTruckComparison.Interfaces;
 using System.Diagnostics;
 
-namespace OrderTruckComparison
+namespace OrderTruckComparison.Logic
 {
     public class TruckJobPairer : ITruckJobPairer
     {
+        private readonly IMaxBipartiteMatcher _matcher;
+        public TruckJobPairer(IMaxBipartiteMatcher maxBipartiteMatcher)
+        {
+            _matcher = maxBipartiteMatcher;
+        }
+
         public List<KeyValuePair<Truck, Job>> CalculateBestPairing(IReadOnlyCollection<Truck> trucks, IReadOnlyCollection<Job> jobs)
         {
-            var matcher = new MaxBipartiteMatcher();
-
             var adjacencyMatrix = CreateMatrix(trucks, jobs);
-            var matches = matcher.MaxBPM(adjacencyMatrix);
+            var matches = _matcher.MaxBPM(adjacencyMatrix);
             var truckJobPairs = ConvertMatchesToTruckJobPairs(matches, trucks, jobs);
 
             var isValid = IsValidMatching(truckJobPairs);
@@ -23,6 +28,7 @@ namespace OrderTruckComparison
             if (!isValid)
             {
                 Console.WriteLine("WARNING - Something went wrong, the solution found is not valid :c");
+                throw new Exception("Algorithm returned an invalid matching");
             }
 
             return truckJobPairs;

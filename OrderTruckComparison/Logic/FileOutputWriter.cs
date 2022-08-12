@@ -1,7 +1,7 @@
 ﻿using OrderTruckComparison.Entities;
 using OrderTruckComparison.Interfaces;
 
-namespace OrderTruckComparison
+namespace OrderTruckComparison.Logic
 {
     public class FileOutputWriter : IOutputWriter
     {
@@ -15,7 +15,7 @@ namespace OrderTruckComparison
         public void WriteOutput(IEnumerable<KeyValuePair<Truck, Job>> matches)
         {
             using var streamWriter = new StreamWriter(_outputPath, false);
-            foreach(var match in matches)
+            foreach (var match in matches)
             {
                 streamWriter.WriteLine($"{match.Key.Id} {match.Value.Id}");
             }

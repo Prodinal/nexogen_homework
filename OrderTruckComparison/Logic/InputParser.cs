@@ -1,7 +1,7 @@
 ﻿using OrderTruckComparison.Entities;
 using OrderTruckComparison.Interfaces;
 
-namespace OrderTruckComparison
+namespace OrderTruckComparison.Logic
 {
     public class InputParser : IInputParser
     {
@@ -17,7 +17,10 @@ namespace OrderTruckComparison
                 iterator = lines.GetEnumerator();
 
                 if (!iterator.MoveNext()) throw new Exception("Empty input file");  //First line: number of trucks
-                var truckCount = int.Parse(iterator.Current);
+                if(!int.TryParse(iterator.Current, out var truckCount))
+                {
+                    throw new Exception($"Failed to parse {iterator.Current} as truck count");
+                }
                 for (var i = 0; i < truckCount; i++)
                 {
                     if (!iterator.MoveNext()) throw new Exception("Fewer truck lines than the specified " + truckCount);    //Read each line of truck
@@ -25,7 +28,10 @@ namespace OrderTruckComparison
                 }
 
                 if (!iterator.MoveNext()) throw new Exception("Job count missing");     //First line after trucks: number of jobs
-                var jobCount = int.Parse(iterator.Current);
+                if(!int.TryParse(iterator.Current, out var jobCount))
+                {
+                    throw new Exception($"Failed to parse {iterator.Current} as job count");
+                }
                 for (var i = 0; i < jobCount; i++)
                 {
                     if (!iterator.MoveNext()) throw new Exception("Fewer job lines than the specified " + jobCount);        //Read each line of jobs
@@ -44,18 +50,17 @@ namespace OrderTruckComparison
             }
             finally
             {
-                if(iterator != null)
+                if (iterator != null)
                 {
                     iterator.Dispose();
                 }
             }
-
         }
 
         private Job GetJobFromLine(string line)
         {
             var parts = line.Split(' ');
-            if(parts.Length != 2) throw new Exception("Malformed job line: " + line);
+            if (parts.Length != 2) throw new Exception("Malformed job line: " + line);
 
             return new Job
             {
@@ -67,7 +72,7 @@ namespace OrderTruckComparison
         private Truck GetTruckFromLine(string line)
         {
             var parts = line.Split(' ');
-            if(parts.Length < 2) throw new Exception("Malformed truck line: " + line);
+            if (parts.Length < 2) throw new Exception("Malformed truck line: " + line);
 
             return new Truck
             {
