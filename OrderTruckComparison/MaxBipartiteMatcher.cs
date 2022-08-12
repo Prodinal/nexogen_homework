@@ -1,7 +1,4 @@
-﻿using OrderTruckComparison.Entities;
-using OrderTruckComparison.Interfaces;
-
-namespace OrderTruckComparison
+﻿namespace OrderTruckComparison
 {
     //Code originally based on this https://www.geeksforgeeks.org/maximum-bipartite-matching/
     public class MaxBipartiteMatcher
