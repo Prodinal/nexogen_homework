@@ -9,6 +9,6 @@ namespace OrderTruckComparison.Interfaces
 {
     public interface ITruckJobPairer
     {
-        Dictionary<Truck, Job> CalculateBestPairing(List<Truck> trucks, List<Job> jobs);
+        List<KeyValuePair<Truck, Job>> CalculateBestPairing(IReadOnlyCollection<Truck> trucks, IReadOnlyCollection<Job> jobs);
     }
 }

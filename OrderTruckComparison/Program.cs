@@ -3,9 +3,19 @@ using OrderTruckComparison.Interfaces;
 using System.Diagnostics;
 
 var sw = Stopwatch.StartNew();
-if(args.Length == 0)
+
+const string CONSOLE_OUTPUT_ARGUMENT = "console";
+
+if(args.Length < 2)
 {
-    Console.WriteLine("Missing argument");
+    Console.WriteLine("Missing arguments inputFile location or output file location");
+    return;
+}
+
+var outputFilePath = args[1];
+if (string.IsNullOrEmpty(outputFilePath) || (outputFilePath != CONSOLE_OUTPUT_ARGUMENT && outputFilePath.IndexOfAny(Path.GetInvalidPathChars()) != -1))
+{
+    Console.WriteLine("Invalid output location argument");
     return;
 }
 
@@ -27,5 +37,15 @@ if(!inputParser.ReadInput(lines, out var trucks, out var jobs))
 var truckJobPairer = new TruckJobPairer();
 var result = truckJobPairer.CalculateBestPairing(trucks, jobs);
 
+IOutputWriter outputWriter;
+if(outputFilePath != CONSOLE_OUTPUT_ARGUMENT)
+{
+    outputWriter = new FileOutputWriter(outputFilePath);
+} else
+{
+    outputWriter = new ConsoleOutputWriter();
+}
+outputWriter.WriteOutput(result.OrderBy(kvp =>kvp.Key.Id));
 
-Console.WriteLine($"Finished running in {sw.Elapsed.TotalSeconds}seconds");
+
+Debug.WriteLine($"Finished running in {sw.Elapsed.TotalSeconds}seconds");

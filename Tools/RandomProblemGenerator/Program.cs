@@ -29,32 +29,31 @@ if(howManyJobTypes >= JobTypes.Length)
 var possibleJobTypes = JobTypes[..howManyJobTypes];
 var filePath = Path.Combine(Directory.GetCurrentDirectory(), FileName);
 Console.WriteLine("Writing output file to " + filePath);
-using (var sw = new StreamWriter(filePath, false))
+
+using var sw = new StreamWriter(filePath, false);
+Random rudi = new();
+
+sw.WriteLine(howManyTrucks);
+for (int i = 0; i < howManyTrucks; i++)
 {
-    Random rudi = new();
+    var stringBuilder = new StringBuilder();
 
-    sw.WriteLine(howManyTrucks);
-    for (int i = 0; i < howManyTrucks; i++)
-    {
-        var stringBuilder = new StringBuilder();
+    stringBuilder.Append($"{i+1}");
 
-        stringBuilder.Append($"{i+1}");
-
-        var howManyCompatibleJobs = rudi.Next(1, 4);    //Allow at least 1, max 3 compatible types for a truck
-        for (int j = 0; j < howManyCompatibleJobs; j++)
-        {
-            var randomJobType = rudi.Next(0, possibleJobTypes.Length);
-            stringBuilder.Append($" {possibleJobTypes[randomJobType]}");
-        }
-
-        sw.WriteLine(stringBuilder.ToString());
-    }
-    sw.WriteLine(howManyJobs);
-    for (int i = 0; i < howManyJobs; i++)
+    var howManyCompatibleJobs = rudi.Next(1, 4);    //Allow at least 1, max 3 compatible types for a truck
+    for (int j = 0; j < howManyCompatibleJobs; j++)
     {
         var randomJobType = rudi.Next(0, possibleJobTypes.Length);
-        var jobLine = $"{i + 1} {possibleJobTypes[randomJobType]}";
-
-        sw.WriteLine(jobLine);
+        stringBuilder.Append($" {possibleJobTypes[randomJobType]}");
     }
+
+    sw.WriteLine(stringBuilder.ToString());
+}
+sw.WriteLine(howManyJobs);
+for (int i = 0; i < howManyJobs; i++)
+{
+    var randomJobType = rudi.Next(0, possibleJobTypes.Length);
+    var jobLine = $"{i + 1} {possibleJobTypes[randomJobType]}";
+
+    sw.WriteLine(jobLine);
 }
